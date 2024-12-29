@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Classroom API</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    /* Aquí puedes agregar algunos estilos para mejorar la interfaz */
+  </style>
+</head>
+<body>
+  <h1>Google Classroom API</h1>
+
+  <div>
+    <button id="listarCursosBtn">Listar Cursos</button>
+    <ul id="listaCursos"></ul>
+  </div>
+
+  <div>
+    <input type="text" id="courseId" placeholder="ID del curso">
+    <button id="listarEstudiantesBtn">Listar Estudiantes</button>
+    <ul id="listaEstudiantes"></ul>
+  </div>
+
+  <div>
+    <input type="text" id="courseIdTarea" placeholder="ID del curso">
+    <button id="listarTareasBtn">Listar Tareas</button>
+    <ul id="listaTareas"></ul>
+  </div>
+
+  <script>
+    // Función para obtener los cursos
+    $('#listarCursosBtn').click(function() {
+      $.get('http://localhost:3000/api/cursos', function(data) {
+        $('#listaCursos').empty();
+        if (data.length === 0) {
+          $('#listaCursos').append('<li>No hay cursos disponibles.</li>');
+        } else {
+          data.forEach(curso => {
+            $('#listaCursos').append(`<li>ID: ${curso.id}, Nombre: ${curso.name}</li>`);
+          });
+        }
+      });
+    });
+
+    // Función para obtener los estudiantes de un curso
+    $('#listarEstudiantesBtn').click(function() {
+      const courseId = $('#courseId').val();
+      $.get(`http://localhost:3000/api/estudiantes/${courseId}`, function(data) {
+        $('#listaEstudiantes').empty();
+        if (data.length === 0) {
+          $('#listaEstudiantes').append('<li>No hay estudiantes en este curso.</li>');
+        } else {
+          data.forEach(student => {
+            $('#listaEstudiantes').append(`<li>${student.name} - ${student.email}</li>`);
+          });
+        }
+      });
+    });
+
+    // Función para obtener las tareas de un curso
+    $('#listarTareasBtn').click(function() {
+      const courseId = $('#courseIdTarea').val();
+      $.get(`http://localhost:3000/api/tareas/${courseId}`, function(data) {
+        $('#listaTareas').empty();
+        if (data.length === 0) {
+          $('#listaTareas').append('<li>No hay tareas asignadas.</li>');
+        } else {
+          data.forEach(tarea => {
+            $('#listaTareas').append(`<li>ID: ${tarea.id}, Título: ${tarea.title}</li>`);
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
