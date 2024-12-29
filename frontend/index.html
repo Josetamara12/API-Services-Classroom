@@ -4,75 +4,47 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Google Classroom API</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="./assets/css/styles.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <style>
-    /* Aquí puedes agregar algunos estilos para mejorar la interfaz */
-  </style>
+  <script src="./assets/js/script.js" defer></script>
 </head>
-<body>
-  <h1>Google Classroom API</h1>
+<body class="bg-light">
 
-  <div>
-    <button id="listarCursosBtn">Listar Cursos</button>
-    <ul id="listaCursos"></ul>
+  <div class="container my-5">
+    <h1 class="text-center mb-4">Google Classroom API</h1>
+
+    <div class="card mb-4">
+      <div class="card-body">
+        <button id="listarCursosBtn" class="btn btn-primary mb-3">Listar Cursos</button>
+        <ul id="listaCursos" class="list-group"></ul>
+      </div>
+    </div>
+    
+
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="d-flex mb-3">
+          <input type="text" id="courseId" class="form-control" placeholder="ID del curso">
+          <button id="listarEstudiantesBtn" class="btn btn-secondary ms-2">Listar Estudiantes</button>
+        </div>
+        <ul id="listaEstudiantes" class="list-group"></ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body">
+        <div class="d-flex mb-3">
+          <input type="text" id="courseIdTarea" class="form-control" placeholder="ID del curso">
+          <button id="listarTareasBtn" class="btn btn-info ms-2">Listar Tareas</button>
+        </div>
+        <ul id="listaTareas" class="list-group"></ul>
+      </div>
+    </div>
   </div>
 
-  <div>
-    <input type="text" id="courseId" placeholder="ID del curso">
-    <button id="listarEstudiantesBtn">Listar Estudiantes</button>
-    <ul id="listaEstudiantes"></ul>
-  </div>
-
-  <div>
-    <input type="text" id="courseIdTarea" placeholder="ID del curso">
-    <button id="listarTareasBtn">Listar Tareas</button>
-    <ul id="listaTareas"></ul>
-  </div>
-
-  <script>
-    // Función para obtener los cursos
-    $('#listarCursosBtn').click(function() {
-      $.get('http://localhost:3000/api/cursos', function(data) {
-        $('#listaCursos').empty();
-        if (data.length === 0) {
-          $('#listaCursos').append('<li>No hay cursos disponibles.</li>');
-        } else {
-          data.forEach(curso => {
-            $('#listaCursos').append(`<li>ID: ${curso.id}, Nombre: ${curso.name}</li>`);
-          });
-        }
-      });
-    });
-
-    // Función para obtener los estudiantes de un curso
-    $('#listarEstudiantesBtn').click(function() {
-      const courseId = $('#courseId').val();
-      $.get(`http://localhost:3000/api/estudiantes/${courseId}`, function(data) {
-        $('#listaEstudiantes').empty();
-        if (data.length === 0) {
-          $('#listaEstudiantes').append('<li>No hay estudiantes en este curso.</li>');
-        } else {
-          data.forEach(student => {
-            $('#listaEstudiantes').append(`<li>${student.name} - ${student.email}</li>`);
-          });
-        }
-      });
-    });
-
-    // Función para obtener las tareas de un curso
-    $('#listarTareasBtn').click(function() {
-      const courseId = $('#courseIdTarea').val();
-      $.get(`http://localhost:3000/api/tareas/${courseId}`, function(data) {
-        $('#listaTareas').empty();
-        if (data.length === 0) {
-          $('#listaTareas').append('<li>No hay tareas asignadas.</li>');
-        } else {
-          data.forEach(tarea => {
-            $('#listaTareas').append(`<li>ID: ${tarea.id}, Título: ${tarea.title}</li>`);
-          });
-        }
-      });
-    });
-  </script>
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
